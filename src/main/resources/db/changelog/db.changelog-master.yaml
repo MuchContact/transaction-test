@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTable
+      author: liquibase-docs
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: int
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: unicode
+              type: varchar(255)
+          remarks: A String
+          tableName: aaa
