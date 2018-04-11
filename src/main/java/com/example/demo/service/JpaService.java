@@ -38,7 +38,7 @@ public class JpaService {
 
 
     @Transactional
-    public void innerTrans(JpaService jpaService) {
+    public void transRollbackWhenInvokingInnerTransactionWhichThrowsException(JpaService jpaService) {
         try {
             ReflectUtils.getMethodValue(jpaService, "innerTransWithReflection");
             TableLock tl = new TableLock();
