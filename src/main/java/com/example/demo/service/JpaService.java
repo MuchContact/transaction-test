@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.ReflectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class JpaService {
@@ -12,13 +14,18 @@ public class JpaService {
 
 
     @Transactional
-    public void rollback() {
-        myJpa.deleteAll();
-        myJpa.flush();
+    public void rollback(String unicode, int id, int timeout) {
         TableLock tl = new TableLock();
-        tl.setUnicode("abd");
+        tl.setId(id);
+        tl.setUnicode(unicode);
         myJpa.save(tl);
-        insert();
+//        myJpa.flush();
+        try {
+            System.out.println(Thread.currentThread().getName() + "before commit");
+            TimeUnit.SECONDS.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
@@ -27,5 +34,24 @@ public class JpaService {
         tl.setUnicode("abdc");
         myJpa.save(tl);
         myJpa.flush();
+    }
+
+
+    @Transactional
+    public void innerTrans(JpaService jpaService) {
+        try {
+            ReflectUtils.getMethodValue(jpaService, "innerTransWithReflection");
+            TableLock tl = new TableLock();
+            tl.setId(100);
+            myJpa.save(tl);
+        } catch (Exception e) {
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
+            e.printStackTrace();
+        }
+    }
+
+    @Transactional
+    public void innerTransWithReflection() {
+        throw new RuntimeException("看不到的异常");
     }
 }

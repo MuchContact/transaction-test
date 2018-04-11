@@ -17,6 +17,7 @@ public class DemoApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        jpaService.rollback();
+//	    new Thread(() -> jpaService.rollback(System.getenv("unicode"), 1, Integer.parseInt(System.getenv("timeout")))).start();
+        jpaService.innerTrans(jpaService);
     }
 }
