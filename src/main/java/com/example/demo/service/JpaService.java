@@ -41,6 +41,12 @@ public class JpaService {
     public void transRollbackWhenInvokingInnerTransactionWhichThrowsException(JpaService jpaService) {
         try {
             ReflectUtils.getMethodValue(jpaService, "innerTransWithReflection");
+//            try{
+//                innerTransWithReflection();
+//            } catch (Exception exc) {
+//                System.out.println("AAAAAAAAAAAAAAAAAAAAA");
+//                exc.printStackTrace();
+//            }
             TableLock tl = new TableLock();
             tl.setId(100);
             myJpa.save(tl);
