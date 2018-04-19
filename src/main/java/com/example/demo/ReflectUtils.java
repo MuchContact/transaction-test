@@ -12,6 +12,7 @@ public class ReflectUtils{
 		try{
 			obj.getClass().getMethod(name, parameterTypes).invoke(obj, args);
 		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
